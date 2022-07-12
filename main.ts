@@ -1,0 +1,56 @@
+// 1: 0x00FF30CF
+// 2: 0x00FF18E7
+// +: 0x00FFA857
+// -: 0x00FFE01F
+// =: 0x00FF906F
+OLED.init(128, 64)
+let pierwsza_cyfra = 0
+let druga_cyfra = 0
+let co_robic = ""
+let wynik = 0
+makerbit.connectIrReceiver(DigitalPin.P8, IrProtocol.NEC)
+makerbit.onIrDatagram(function on_ir_datagram() {
+    
+    
+    
+    
+    let kod = makerbit.irDatagram()
+    if (kod == "0x00FF30CF") {
+        if (co_robic != "") {
+            druga_cyfra = 1
+        } else {
+            pierwsza_cyfra = 1
+        }
+        
+    } else if (kod == "0x00FF18E7") {
+        if (co_robic != "") {
+            druga_cyfra = 2
+        } else {
+            pierwsza_cyfra = 2
+        }
+        
+        
+    }
+    
+    if (kod == "0x00FFA857") {
+        co_robic = "+"
+        
+    }
+    
+    if (kod == "0x00FFE01F") {
+        co_robic = "-"
+    }
+    
+    OLED.writeStringNewLine(":" + ("" + pierwsza_cyfra) + co_robic + ("" + druga_cyfra))
+    if (kod == "0x00FF906F") {
+        if (co_robic == "+") {
+            wynik = pierwsza_cyfra + druga_cyfra
+            OLED.writeNumNewLine(wynik)
+        } else {
+            wynik = pierwsza_cyfra - druga_cyfra
+            OLED.writeNumNewLine(wynik)
+        }
+        
+    }
+    
+})
