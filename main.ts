@@ -7,7 +7,7 @@ OLED.init(128, 64)
 let pierwsza_cyfra = ""
 let druga_cyfra = ""
 let co_robic = ""
-let wynik = 0
+let wynik = ""
 makerbit.connectIrReceiver(DigitalPin.P8, IrProtocol.NEC)
 makerbit.onIrDatagram(function on_ir_datagram() {
     
@@ -41,20 +41,18 @@ makerbit.onIrDatagram(function on_ir_datagram() {
         co_robic = "-"
     }
     
-    OLED.clear()
-    OLED.writeStringNewLine(":" + pierwsza_cyfra + co_robic + druga_cyfra)
     if (kod == "0x00FF906F") {
         if (co_robic == "+") {
-            wynik = parseInt(pierwsza_cyfra) + parseInt(druga_cyfra)
-            OLED.writeNumNewLine(wynik)
+            wynik = "=" + ("" + (parseInt(pierwsza_cyfra) + parseInt(druga_cyfra)))
         } else {
-            wynik = parseInt(pierwsza_cyfra) - parseInt(druga_cyfra)
-            OLED.writeNumNewLine(wynik)
+            wynik = "=" + ("" + (parseInt(pierwsza_cyfra) - parseInt(druga_cyfra)))
         }
         
         pierwsza_cyfra = ""
         druga_cyfra = ""
         co_robic = ""
+        wynik = ""
     }
     
+    OLED.writeString(pierwsza_cyfra + co_robic + druga_cyfra + wynik)
 })

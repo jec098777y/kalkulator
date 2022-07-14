@@ -7,7 +7,7 @@ OLED.init(128, 64)
 pierwsza_cyfra = ""
 druga_cyfra = ""
 co_robic = ""
-wynik = 0
+wynik = ""
 makerbit.connect_ir_receiver(DigitalPin.P8, IrProtocol.NEC)
 def on_ir_datagram():
     global pierwsza_cyfra
@@ -39,19 +39,23 @@ def on_ir_datagram():
     if kod == "0x00FFE01F":
         co_robic = "-"
         
-    OLED.clear()
-    OLED.write_string_new_line(":" + pierwsza_cyfra + co_robic + druga_cyfra)
+    
+    
     
     if kod == "0x00FF906F":
         if co_robic == "+":
-            wynik = int(pierwsza_cyfra) + int(druga_cyfra)
+            wynik = "=" + str(int(pierwsza_cyfra) + int(druga_cyfra))
       
-            OLED.write_num_new_line(wynik)
+            
         else:
-            wynik = int(pierwsza_cyfra) - int(druga_cyfra)
-            OLED.write_num_new_line(wynik)
+            wynik = "=" + str(int(pierwsza_cyfra) - int(druga_cyfra))
+            
+            
         pierwsza_cyfra = ""
         druga_cyfra = ""
         co_robic = ""
+        wynik = "" 
+    OLED.write_string(pierwsza_cyfra + co_robic + druga_cyfra + wynik)
+
             
 makerbit.on_ir_datagram(on_ir_datagram)
