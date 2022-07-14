@@ -40,22 +40,22 @@ def on_ir_datagram():
         co_robic = "-"
         
     
-    
+    OLED.clear()
+    OLED.write_string(pierwsza_cyfra + co_robic + druga_cyfra + wynik)
     
     if kod == "0x00FF906F":
         if co_robic == "+":
             wynik = "=" + str(int(pierwsza_cyfra) + int(druga_cyfra))
-      
-            
+       
         else:
             wynik = "=" + str(int(pierwsza_cyfra) - int(druga_cyfra))
             
-            
+        OLED.clear()
+        OLED.write_string(pierwsza_cyfra + co_robic + druga_cyfra + wynik)    
         pierwsza_cyfra = ""
         druga_cyfra = ""
         co_robic = ""
         wynik = "" 
-    OLED.write_string(pierwsza_cyfra + co_robic + druga_cyfra + wynik)
-
+    
             
 makerbit.on_ir_datagram(on_ir_datagram)

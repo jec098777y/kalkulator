@@ -41,6 +41,8 @@ makerbit.onIrDatagram(function on_ir_datagram() {
         co_robic = "-"
     }
     
+    OLED.clear()
+    OLED.writeString(pierwsza_cyfra + co_robic + druga_cyfra + wynik)
     if (kod == "0x00FF906F") {
         if (co_robic == "+") {
             wynik = "=" + ("" + (parseInt(pierwsza_cyfra) + parseInt(druga_cyfra)))
@@ -48,11 +50,12 @@ makerbit.onIrDatagram(function on_ir_datagram() {
             wynik = "=" + ("" + (parseInt(pierwsza_cyfra) - parseInt(druga_cyfra)))
         }
         
+        OLED.clear()
+        OLED.writeString(pierwsza_cyfra + co_robic + druga_cyfra + wynik)
         pierwsza_cyfra = ""
         druga_cyfra = ""
         co_robic = ""
         wynik = ""
     }
     
-    OLED.writeString(pierwsza_cyfra + co_robic + druga_cyfra + wynik)
 })
